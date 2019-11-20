@@ -1,0 +1,52 @@
+# Fun with regular expressions
+
+In this task, you will use the object `data_char_sampletext` and the **stringr** package to extract some quantities.
+
+## Getting the data
+
+This is easy:
+```{r}
+data("data_char_sampletext", package = "quanteda")
+```
+
+## Regex challenges
+
+Use `str_extract_all()`.  
+
+1.  Extract the numbers.  Figure out the regular expression code to represent numbers.
+
+2.  Extract the currency references followed by numbers.  You can either list the currency symbols or use a Unicode category for this, followed by a numeric category.
+
+3.  Extract the all-capitalized terms.
+
+4.  Extract the capitalized (title case) terms.
+
+5.  Extract terms that end in "s".
+
+6.  Replace the € currency symbol with the £ symbol.
+
+7.  Extract all terms starting or ending with "y".
+
+
+
+Use the **rtweet** package to get two samples of Tweets:
+-  a set for Boris Johnson, and
+-  a set for Jeremy Corbyn.
+
+You can refer to the (updated) example from Week 7's REST example, using the `search_tweets()` function.  Get as large a sample as you can, with equal numbers for both sides.  Consider your search patterns carefully!
+
+## Comparing sentiment
+
+Use the **quanteda** package to analyze the sentiment for the tweets.  This will involve:
+
+- converting the tweet objects to a quanteda corpus (this works with `corpus()`)
+
+- adding a new document variable called `candidate` to each corpus (there should be two), using the `docvars(corpus1, "candidate") <- "corbyn"` (for instance)
+
+- adding the two corpora together, see `?`.corpus``.
+
+- creating a dfm using the built-in `data_dictionary_LSD2015`.  See `?dfm` and the `dictionary` argument.  To group the documents, consider the `groups` argument for the new `candidate` document variable.
+
+# Interpret the results
+
+Here you can compare the positive to negative words for each candidate, possibly using a plot.

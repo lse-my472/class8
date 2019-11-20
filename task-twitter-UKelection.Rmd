@@ -1,0 +1,27 @@
+# Sentiment analysis for UK 2019 general election candidates
+
+In this task, you will get a sample of Tweets mentioning the two leading party candidates for the UK election (scheduled for December 12, 2019): Boris Johnson and Jeremy Corbyn.
+
+## Getting the data
+
+Use the **rtweet** package to get two samples of Tweets:
+-  a set for Boris Johnson, and
+-  a set for Jeremy Corbyn.
+
+You can refer to the (updated) example from Week 7's REST example, using the `search_tweets()` function.  Get as large a sample as you can, with equal numbers for both sides.  Consider your search patterns carefully!
+
+## Comparing sentiment
+
+Use the **quanteda** package to analyze the sentiment for the tweets.  This will involve:
+
+- converting the tweet objects to a quanteda corpus (this works with `corpus()`)
+
+- adding a new document variable called `candidate` to each corpus (there should be two), using the `docvars(corpus1, "candidate") <- "corbyn"` (for instance)
+
+- adding the two corpora together, see `?`.corpus``.
+
+- creating a dfm using the built-in `data_dictionary_LSD2015`.  See `?dfm` and the `dictionary` argument.  To group the documents, consider the `groups` argument for the new `candidate` document variable.
+
+# Interpret the results
+
+Here you can compare the positive to negative words for each candidate, possibly using a plot.
