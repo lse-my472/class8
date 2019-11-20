@@ -1,0 +1,58 @@
+# Word frequencies from news articles
+
+In this task, you will use the _New York Times_ API to retrieve articles about climate change.
+
+
+## Getting the data
+
+1. Getting the data from the API.
+
+    Follow the examples from Week 7 to use the _New York Times_ API to retrieve all articles mentioning "climate change" and/or "global warming", from January 1 to November 20, 2019.
+
+    Refer to https://developer.nytimes.com/docs/articlesearch-product/1/overview for instructions on multi-word searches.
+
+    Another solution could be to use the **nytimes** package by Mike Kearney.  There is information at the package's [GitHub page](https://github.com/mkearney/nytimes) and a tutorial at https://www.storybench.org/working-with-the-new-york-times-api-in-r/.
+
+2. Creating a dataframe.
+
+    You will also need a way to return a simple data.frame called `ntydf` consisting of:
+    -  a character column called `text` containing the text of the article
+    -  a date vector called `pubdate` consisting of the article's puublication date.
+
+
+## Top frequencies by date
+
+1.  Use **quanteda** to create a corpus.
+
+```{r}
+library("quanteda")
+nytcorpus <- corpus(nytdf)
+```
+
+2.  Compile a document-feature matrix using `dfm()`.
+
+3.  List the top features in the entire corpus using `topfeatures()` on the dfm.
+
+4.  Rebuild the dfm, this time excluding punctuation and English stopwords.  (See `?dfm` and the `...` argument, which leads you to `tokens()` options.)  Examine the new top features.
+
+5.  Rebuild the dfm again, grouping by article date (`groups` argument for the `pubdate` variable), also removing punctuation and stopwords.  Select the top features and plot their frequency over time, by date.
+
+
+Plot a selection of the top
+
+Use **quanteda** 
+
+1.  Extract the numbers.  Figure out the regular expression code to represent numbers.
+
+2.  Extract the currency references followed by numbers.  You can either list the currency symbols or use a Unicode category for this, followed by a numeric category.
+
+3.  Extract the all-capitalized terms.
+
+4.  Extract the capitalized (title case) terms.
+
+5.  Extract terms that end in "s".
+
+6.  Replace the € currency symbol with the £ symbol.
+
+7.  Extract all terms starting or ending with "y".
+
