@@ -7,6 +7,14 @@ In this task, you will get a sample of Tweets mentioning the two leading party c
 Use the **rtweet** package to get two samples of Tweets:
 -  a set for Boris Johnson, and
 -  a set for Jeremy Corbyn.
+```{r}
+#install.packages("rtweet")
+library("rtweet")
+
+bj <- search_tweets("Boris Johnson", n = 1000, include_rts = FALSE)
+
+jc <- search_tweets("Jeremy Corbyn", n = 1000, include_rts = FALSE)
+```
 
 You can refer to the (updated) example from Week 7's REST example, using the `search_tweets()` function.  Get as large a sample as you can, with equal numbers for both sides.  Consider your search patterns carefully!
 
@@ -15,13 +23,58 @@ You can refer to the (updated) example from Week 7's REST example, using the `se
 Use the **quanteda** package to analyze the sentiment for the tweets.  This will involve:
 
 - converting the tweet objects to a quanteda corpus (this works with `corpus()`)
+```{r}
+#install.packages("quanteda")
+#install.packages("readtext")
+library("quanteda")
+library("readtext")
+#library(tidyverse)
+##library(tidyr)
+#library(tm)
+## library(Matrix)
+#library(glmnet)
+#
+#text_bj <- readtext(file = bj$text)
+#
+#corpus <- Corpus(VectorSource(bj$text))
+#
+#dtm <- DocumentTermMatrix(corpus, list(weight=weightBin,
+#                                       stopwords=T,
+#                                       removePunctuation=T,
+#                                       removeNumbers=T)) 
+
+corp_bj <- corpus(bj)
+corp_jc <- corpus(jc)
+```
+
 
 - adding a new document variable called `candidate` to each corpus (there should be two), using the `docvars(corpus1, "candidate") <- "corbyn"` (for instance)
+```{r}
+docvars(corp_bj, "candidate") <- "boris"
+docvars(corp_jc, "candidate") <- "jeremy"
+```
 
 - adding the two corpora together, see `?`.corpus``.
+```{r}
+corp <- corp_bj + corp_jc
+summary(corp)
+```
 
 - creating a dfm using the built-in `data_dictionary_LSD2015`.  See `?dfm` and the `dictionary` argument.  To group the documents, consider the `groups` argument for the new `candidate` document variable.
+```{r}
+dfm <- dfm(x = corp, dictionary = data_dictionary_LSD2015, groups = "candidate")
+dfm_df <- convert(dfm, to = "data.frame")
+library("reshape2")
+
+dfm_clean <- melt(dfm_df, id.vars = "document", variable.name = "index", value.name = "value")
+```
 
 # Interpret the results
 
 Here you can compare the positive to negative words for each candidate, possibly using a plot.
+```{r}
+library(ggplot2)
+ggplot(data = dfm_clean, mapping = aes(x = index, y = value, fill = document)) +
+  geom_bar(stat = 'identity', position = 'dodge')
+```
+
