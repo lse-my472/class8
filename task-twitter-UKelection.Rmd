@@ -7,8 +7,7 @@ In this task, you will get a sample of Tweets mentioning the two leading party c
 Use the **rtweet** package to get two samples of Tweets:
 -  a set for Boris Johnson, and
 -  a set for Jeremy Corbyn.
-```{r}
-install.packages("rtweet")
+```{r, cache=TRUE}
 library("rtweet")
 
 JC <- "Jeremy Corbyn"
@@ -58,7 +57,6 @@ Use the **quanteda** package to analyze the sentiment for the tweets.  This will
 ```{r}
 library(quanteda)
 corp_jc <- corpus(jc_tweets)
-summary(corp_jc)
 
 corp_bj <- corpus(bj_tweets)
 
@@ -90,11 +88,6 @@ library(tidyverse)
 dta_long <- pivot_longer(dfm_mat,cols = c("negative", "positive",
                               "neg_positive","neg_negative")
              , names_to = "Sentiment")
-
-ggplot(data = dta_long, aes(x = candidate, y = value, colour = Sentiment)) +
-  geom_point(size)
-
-dta_long
 
 ggplot(data = dta_long, aes(x = Sentiment, y = value, fill = candidate)) +
   geom_bar(stat = 'identity', position = 'dodge')
